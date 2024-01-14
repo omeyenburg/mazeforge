@@ -4,7 +4,7 @@ import numpy
 def generate(width: int, height: int) -> numpy.array:
     width = width * 2 + 1
     height = height * 2 + 1
-    maze = numpy.ones((width, height))
+    maze = numpy.ones((width, height), dtype=numpy.int_)
 
     for x, y in numpy.ndindex((width, height)):
         if 1 == x % 2 == y % 2:
@@ -13,7 +13,6 @@ def generate(width: int, height: int) -> numpy.array:
     # Prim's algorithm
     maze_width = (width - 1) // 2
     maze_height = (height - 1) // 2
-
 
     def get_neighbours(x, y):
         neighbours = {(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)}
