@@ -1,4 +1,5 @@
-import mazeforge
+from .. import src
+import src.mazeforge as mazeforge
 import pygame
 import numpy
 
