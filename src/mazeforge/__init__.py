@@ -1,16 +1,22 @@
-"""MazeForge
+"""
+    MazeForge
+    =========
 
-Contact:
---------
+    Provides
+      1. Generation of mazes
+      2. Solving of mazes
+      3. Visualisation of mazes
 
-- oskar.meyenburg@gmail.com
+    Contact
+      - oskar.meyenburg@gmail.com
 
-More information is available at:
-
-- https://pypi.org/project/mazeforge/
-- https://github.com/oskarmeyenburg/mazeforge
+    More information
+      - https://pypi.org/project/mazeforge/
+      - https://github.com/oskarmeyenburg/mazeforge
 """
 from .generator import generate
+from .base import Maze
 
 
 __version__ = "0.1.0"
+__all__ = ['Maze', 'generate']

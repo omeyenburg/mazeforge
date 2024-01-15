@@ -25,9 +25,11 @@ License: MIT License
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
         
+Project-URL: Homepage, https://github.com/oskarmeyenburg/mazeforge
 Project-URL: repository, https://github.com/oskarmeyenburg/mazeforge
 Project-URL: documentation, https://github.com/oskarmeyenburg/mazeforge/blob/main/README.md
-Keywords: labyrinth,maze,pymaze,generation
+Keywords: labyrinth,maze,pymaze,generation,generate,solve
+Classifier: Operating System :: OS Independent
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 3

@@ -1,7 +1,22 @@
 import random
 import numpy
 
-def generate(width: int, height: int) -> numpy.array:
+def generate(width: int, height: int) -> numpy.ndarray:
+    """
+    Generate a 2d maze on a grid.
+    
+    Parameters
+    ----------
+    width : int
+        Number of columns in the maze.
+    height : int
+        Number of rows in the maze.
+
+    Returns
+    -------
+    numpy.ndarray
+        Maze as a numpy.ndarray with the shape (2 * width + 1, 2 * height + 1)
+    """
     width = width * 2 + 1
     height = height * 2 + 1
     maze = numpy.ones((width, height), dtype=numpy.int_)
