@@ -1,7 +1,7 @@
 import random
 import numpy
 
-def generate(width: int, height: int) -> numpy.ndarray:
+def generate(width, height):
     """
     Generate a 2d maze on a grid.
     
@@ -17,27 +17,23 @@ def generate(width: int, height: int) -> numpy.ndarray:
     numpy.ndarray
         Maze as a numpy.ndarray with the shape (2 * width + 1, 2 * height + 1)
     """
-    width = width * 2 + 1
-    height = height * 2 + 1
-    maze = numpy.ones((width, height), dtype=numpy.int_)
+    # Prim's algorithm
+    array_width = width * 2 + 1
+    array_height = height * 2 + 1
+    maze = numpy.ones((array_width, array_height), dtype=numpy.int_)
 
-    for x, y in numpy.ndindex((width, height)):
+    for x, y in numpy.ndindex((array_width, array_height)):
         if 1 == x % 2 == y % 2:
             maze[x, y] = 0
-
-    # Prim's algorithm
-    maze_width = (width - 1) // 2
-    maze_height = (height - 1) // 2
 
     def get_neighbours(x, y):
         neighbours = {(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)}
         for neighbour in tuple(neighbours):
-            if not (0 <= neighbour[0] < maze_width and 0 <= neighbour[1] < maze_height):
+            if not (0 <= neighbour[0] < width and 0 <= neighbour[1] < height):
                 neighbours.discard(neighbour)
         return neighbours
 
-
-    existing_cells = {(maze_width // 2, maze_height // 2)}
+    existing_cells = {(width // 2, height // 2)}
     adjacent_cells = get_neighbours(*list(existing_cells)[0])
 
     while len(adjacent_cells):

@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: mazeforge
 Version: 0.1.0
-Summary: Simple and fast generation of mazes in Python
+Summary: Simple and fast generation of mazes
 Author-email: Oskar Meyenburg <oskar.meyenburg@gmail.com>
 License: MIT License
         
@@ -25,10 +25,10 @@ License: MIT License
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
         
-Project-URL: Homepage, https://github.com/oskarmeyenburg/mazeforge
 Project-URL: repository, https://github.com/oskarmeyenburg/mazeforge
 Project-URL: documentation, https://github.com/oskarmeyenburg/mazeforge/blob/main/README.md
 Keywords: labyrinth,maze,pymaze,generation,generate,solve
+Classifier: Intended Audience :: Developers
 Classifier: Operating System :: OS Independent
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python
@@ -48,15 +48,19 @@ Requires-Dist: mypy; extra == "dev"
 Requires-Dist: pytest; extra == "dev"
 
 # MazeForge
+
 Generation of mazes in Python
 
 ## Installation
+
 You can install **MazeForge** from [PyPI](https://pypi.org/project/mazeforge/) by running the following in your terminal.<br>
 `python -m pip install mazeforge`
 <br>
+
 MazeForge is supported on Python 3.7 and above.
 
 ## How to use
+
 ```python
 >>> import mazeforge
 >>> mazeforge.generate(3, 3)
@@ -70,5 +74,7 @@ array([[1., 1., 1., 1., 1., 1., 1.],
 ```
 
 ## Documentation
+
 ### mazeforge.generate
+
 `mazeforge.generate` generates a perfect maze. This means that any two cells are connected by one single unique path. The function returns 2d numpy array. Walls are represented as a `1` and corridor as a `0`. The maze is generated using the prim's algorithm.
