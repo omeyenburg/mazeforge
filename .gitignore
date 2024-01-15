@@ -1,3 +1,5 @@
-mazeforge.egg-info
+**/__pycache__
+**/.DS_Store
+**/.vscode
 tutorial.md
 venv

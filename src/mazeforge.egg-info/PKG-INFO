@@ -1,0 +1,72 @@
+Metadata-Version: 2.1
+Name: mazeforge
+Version: 0.1.0
+Summary: Simple and fast generation of mazes in Python
+Author-email: Oskar Meyenburg <oskar.meyenburg@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 Oskar Meyenburg
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: repository, https://github.com/oskarmeyenburg/mazeforge
+Project-URL: documentation, https://github.com/oskarmeyenburg/mazeforge/blob/main/README.md
+Keywords: labyrinth,maze,pymaze,generation
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Provides-Extra: build
+Requires-Dist: build; extra == "build"
+Requires-Dist: twine; extra == "build"
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: bumpver; extra == "dev"
+Requires-Dist: isort; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+
+# MazeForge
+Generation of mazes in Python
+
+## Installation
+You can install **MazeForge** from [PyPI](https://pypi.org/project/mazeforge/) by running the following in your terminal.<br>
+`python -m pip install mazeforge`
+<br>
+MazeForge is supported on Python 3.7 and above.
+
+## How to use
+```python
+>>> import mazeforge
+>>> mazeforge.generate(3, 3)
+array([[1., 1., 1., 1., 1., 1., 1.],
+       [1., 0., 1., 0., 0., 0., 1.],
+       [1., 0., 1., 0., 1., 1., 1.],
+       [1., 0., 0., 0., 1., 0., 1.],
+       [1., 1., 1., 0., 1., 0., 1.],
+       [1., 0., 0., 0., 0., 0., 1.],
+       [1., 1., 1., 1., 1., 1., 1.]])
+```
+
+## Documentation
+### mazeforge.generate
+`mazeforge.generate` generates a perfect maze. This means that any two cells are connected by one single unique path. The function returns 2d numpy array. Walls are represented as a `1` and corridor as a `0`. The maze is generated using the prim's algorithm.
