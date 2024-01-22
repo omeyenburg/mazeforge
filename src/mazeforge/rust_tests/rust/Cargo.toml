@@ -1,0 +1,9 @@
+[package]
+name = "test"
+version = "0.1.0"
+
+[lib]
+name = "rust"
+
+[dependencies]
+cpython = "0.7.1"
