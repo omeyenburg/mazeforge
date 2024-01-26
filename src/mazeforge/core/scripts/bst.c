@@ -7,19 +7,17 @@
 Node* create_node(int value) {
     Node* node = (Node*)malloc(sizeof(Node));
     node->value = value;
-    node->exists = NULL;
+    node->exists = true;
     node->lower = node->higher = NULL;
     return node;
 }
 
 
 // Public
-// Creates and returns an empty binary search tree
+// Create and returns an empty binary search tree
 BinaryTree* bst_create() {
     BinaryTree* tree = (BinaryTree*)malloc(sizeof(BinaryTree));
-    if (tree == NULL) {
-        exit(EXIT_FAILURE);
-    }
+    if (tree == NULL) exit(EXIT_FAILURE);
     tree->root = NULL;
     return tree;
 }
@@ -46,7 +44,7 @@ void recursive_insert(Node* node, int value) {
 }
 
 // Public
-// Adds value to tree or returns true if value is already in tree
+// Add value to tree or returns true if value is already in tree
 void bst_insert(BinaryTree* tree, int value) {
     if (tree->root == NULL) {
         Node* node = create_node(value);
@@ -59,7 +57,6 @@ void bst_insert(BinaryTree* tree, int value) {
 
 void recursive_remove(Node* node, Node* parent, int value) {
     if (node->value == value) {
-        
         if (parent != NULL && node->lower == NULL && node->higher == NULL) {
             if (node->value == parent->lower->value) {
                 parent->lower = NULL;
@@ -80,6 +77,7 @@ void recursive_remove(Node* node, Node* parent, int value) {
 }
 
 // Public
+// Remove a value from a binary search tree
 void bst_remove(BinaryTree* tree, int value) {
     if (tree->root == NULL) return;
     recursive_remove(tree->root, NULL, value); 
@@ -107,10 +105,8 @@ bool bst_contains(BinaryTree* tree, int value) {
 
 void recursive_print(const Node* node) {
     if (node == NULL) return;
-    printf("lower\n");
     recursive_print(node->lower);
     if (node->exists == true) printf("%d\n", node->value);
-    printf("higher\n");
     recursive_print(node->higher);
 }
 
