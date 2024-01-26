@@ -1,3 +1,4 @@
+#include "bst.h" // implements binary search trees
 #include <stdio.h> // implements printf
 #include <stdlib.h> // implements malloc, calloc and realloc
 #include <stdint.h> // implements int8_t
@@ -40,7 +41,7 @@ void generate_maze(int8_t *array, int width, int height) {
 
     // calloc(number of elements, size per element) -> allocates space + fills with 0
     // malloc(number of elements * size per element) -> allocates space (maybe prefered)
-    int* adjacent_cells = malloc(2 * width * height * sizeof(int));
+    BinaryTree* adjacent_cells = bst_create();
     int adjacent_cells_count = 0;
 
 

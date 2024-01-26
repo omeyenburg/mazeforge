@@ -16,7 +16,7 @@
 """
 from .generator import generate
 from .base import Maze
-from .core.loader import mazeforge_util
+from .lib import mazeforge_util
 
 
 __version__ = "0.1.1"

@@ -1,1 +1,4 @@
-include src/reader/*.toml
+global-include *.so
+global-include *.dylib
+global-include *.dll
+global-exclude *.pyc

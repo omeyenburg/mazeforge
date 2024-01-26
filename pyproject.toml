@@ -22,7 +22,7 @@ requires-python = ">=3.7"
 
 [project.optional-dependencies]
 build = ["build", "twine"]
-dev   = ["black", "bumpver", "isort", "mypy", "pytest"]
+dev = ["black", "bumpver", "isort", "mypy", "pytest"]
 
 # This would create the terminal command "mazeforge"
 #[project.scripts]
