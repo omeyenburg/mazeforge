@@ -1,8 +1,8 @@
-#include "bst.h" // implements binary search trees
-#include <stdio.h> // implements printf
 #include <stdlib.h> // implements malloc, calloc and realloc
 #include <stdint.h> // implements int8_t
-#include <time.h>
+#include <stdio.h> // implements printf
+#include <time.h> // implements time
+#include "bst.h" // implements binary search trees
 
 
 void init() {
@@ -10,24 +10,28 @@ void init() {
 }
 
 
-void c_print() {
+void test() {
     printf("Hello World from C!\n");
 }
 
-void print_maze1(int **array, int width, int height) {
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-            int value = array[i][j];
-            printf("%d ", value);
-        }
-        printf("\n");
+
+void printBinary(int num) {
+    // Loop through each bit starting from the most significant bit (leftmost)
+    for (int i = 3; i >= 0; i--) {
+        // Check if the i-th bit is set (1) or unset (0)
+        int bit = (num >> i) & 1;
+        
+        // Print the bit
+        printf("%d", bit);
     }
+    printf("\n");
 }
 
+
 void print_maze(int8_t *array, int width, int height) {
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-            int value = array[i + j * width];
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            int value = array[y + x * width]; // x/y swapped cuz working
             printf("%d ", value);
         }
         printf("\n");
@@ -35,85 +39,142 @@ void print_maze(int8_t *array, int width, int height) {
 }
 
 
+bool get_bit(int8_t *array, int coord, int index) {
+    return (array[coord] >> index) & 1;
+}
+
+
+void set_bit(int8_t *array, int coord, int index, bool value) {
+    if (value == true) {
+        array[coord] |= (1 << index);
+    } else {
+        array[coord] &= ~(1 << index);
+    }
+}
+
+
 void add_adjacent_cells(int x, int y, BinaryTree* adjacent_cells, int8_t* array, int width, int height) {
     int coord = x + y * width;
 
-    if (x > 0) {
-        if (array[coord - 1] == -1) {
-            bst_insert(adjacent_cells, coord - 1);
+    if (x > 0 && array[coord - 1] == -1) {
+        bst_insert(adjacent_cells, coord - 1);
+    }
+    if (x < width - 1 && array[coord + 1] == -1) {
+        bst_insert(adjacent_cells, coord + 1);
+    }
+    if (y > 0 && array[coord - width] == -1) {
+        bst_insert(adjacent_cells, coord - width);
+    }
+    if (y < height - 1 && array[coord + width] == -1) {
+        bst_insert(adjacent_cells, coord + width);
+    }
+}
+
+
+void create_connection(int8_t *array, int x, int y, int width, int height) {
+    int coord = x + y * width;
+    int neighbours[4];
+
+    if (x < width - 1 && array[coord + 1] != -1) {
+        neighbours[0] = 1;
+    } else {
+        neighbours[0] = 0;
+    }
+
+    if (y < height - 1 && array[coord + width] != -1) {
+        neighbours[1] = 1;
+    } else {
+        neighbours[1] = 0;
+    }
+
+    if (x > 0 && array[coord - 1] != -1) {
+        neighbours[2] = 1;
+    } else {
+        neighbours[2] = 0;
+    }
+
+    if (y > 0 && array[coord - width] != -1) {
+        neighbours[3] = 1;
+    } else {
+        neighbours[3] = 0;
+    }
+
+    int sum = neighbours[0] + neighbours[1] + neighbours[2] + neighbours[3];
+    if (sum == 0) {
+        return;
+    }
+    int index = rand() % sum;
+
+    if (neighbours[0] == 1) {
+        if (index == 0) {
+            set_bit(array, coord, 0, false);
+            set_bit(array, coord + 1, 2, false);
+            return;
+        } else {
+            index--;
         }
     }
-    if (x < width - 1) {
-        if (array[coord + 1] == -1) {
-            bst_insert(adjacent_cells, coord + 1);
+
+    if (neighbours[1] == 1) {
+        if (index == 0) {
+            set_bit(array, coord, 1, false);
+            set_bit(array, coord + width, 3, false);
+            return;
+        } else {
+            index--;
         }
     }
-    if (y > 0) {
-        if (array[coord - width] == -1) {
-            bst_insert(adjacent_cells, coord - width);
+
+    if (neighbours[2] == 1) {
+        if (index == 0) {
+            set_bit(array, coord, 2, false);
+            set_bit(array, coord - 1, 0, false);
+            return;
+        } else {
+            index--;
         }
     }
-    if (y < height - 1) {
-        if (array[coord + width] == -1) {
-            bst_insert(adjacent_cells, coord + width);
-        }
+
+    if (neighbours[3] == 1) {
+        set_bit(array, coord, 3, false);
+        set_bit(array, coord - width, 1, false);
     }
 }
 
 
 void generate_maze(int8_t *array, int width, int height) {
-    for (int x = 0; x < width; x++)
-    for (int y = 0; y < height; y++)
-    array[x + y * width] = -1;
+    // Fill array with -1
+    for (int i = 0; i < width * height; i++) {
+        array[i] = -1;
+    }
 
     // calloc(number of elements, size per element) -> allocates space + fills with 0
     // malloc(number of elements * size per element) -> allocates space (maybe prefered)
     BinaryTree* adjacent_cells = bst_create();
-    bst_insert(adjacent_cells, 92);
-    bst_insert(adjacent_cells, 48);
-    bst_insert(adjacent_cells, 21);
-    bst_insert(adjacent_cells, 23);
-    bst_insert(adjacent_cells, 4);
-    bst_insert(adjacent_cells, 2);
-    bst_insert(adjacent_cells, 14);
-    bst_insert(adjacent_cells, 11);
-    bst_insert(adjacent_cells, 91);
-    bst_insert(adjacent_cells, 94);
-    bst_insert(adjacent_cells, 20);
-    bst_insert(adjacent_cells, 25);
-    bst_insert(adjacent_cells, 24);
-    bst_insert(adjacent_cells, 26);
-    bst_insert(adjacent_cells, 97);
-    bst_insert(adjacent_cells, 85);
-    
-    bst_print(adjacent_cells);
-    printf("--\n%d\n", adjacent_cells->size);
-    bst_remove(adjacent_cells, 37);
-    bst_remove(adjacent_cells, 21);
-    bst_remove(adjacent_cells, 85);
-    bst_remove(adjacent_cells, 14);
-    bst_remove(adjacent_cells, 20);
-    bst_remove(adjacent_cells, 25);
-    printf("--\n%d\n--\n", adjacent_cells->size);
-    for (int i = 0; i < 20; i++) {
-        printf("%d: %d\n", i, bst_get(adjacent_cells, i));
-    }
-    printf("--\n%d\n", bst_get(adjacent_cells, -1));
 
     // Create starting point
     int center[2] = {width / 2, height / 2};
-    array[center[0] + center[1] * width];
+    array[center[0] + center[1] * width] = 15;
     add_adjacent_cells(center[0], center[1], adjacent_cells, array, width, height);
 
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-            int value = array[i + j * width];
-            printf("%d ", value);
-        }
-        printf("\n");
+    // Create new cells
+    while (adjacent_cells->size > 0) {
+        // Choose random adjacent cell
+        int new_cell = bst_get_random(adjacent_cells);
+        int x = new_cell % width;
+        int y = new_cell / width;
+
+        // Update adjacent cells
+        bst_remove(adjacent_cells, new_cell);
+        add_adjacent_cells(x, y, adjacent_cells, array, width, height);
+
+        // Adjust cell walls
+        array[new_cell] = 15;
+        create_connection(array, x, y, width, height);
+        printBinary(array[new_cell]);
     }
 
-    for (int i = 0; i < 30; i++) printf("%d\n", bst_get_random(adjacent_cells));
-
+    // Clean up
     bst_delete(adjacent_cells);
+    print_maze(array, width, height);
 }

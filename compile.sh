@@ -58,7 +58,7 @@ for i in "${!COMPILERS[@]}"; do
 done
 
 rm ${DIR_SOURCE}/generator.o ${DIR_SOURCE}/bst.o
-echo Done
+echo Compiled
 exit 0
 
 # Linux:

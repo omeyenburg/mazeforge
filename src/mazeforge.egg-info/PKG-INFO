@@ -29,8 +29,11 @@ Project-URL: repository, https://github.com/oskarmeyenburg/mazeforge
 Project-URL: documentation, https://github.com/oskarmeyenburg/mazeforge/blob/main/README.md
 Keywords: labyrinth,maze,pymaze,generation,generate,solve
 Classifier: Intended Audience :: Developers
-Classifier: Operating System :: OS Independent
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
 Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: C
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 3
 Requires-Python: >=3.7
