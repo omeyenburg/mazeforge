@@ -19,6 +19,7 @@ BinaryTree* bst_create();
 void bst_insert(BinaryTree* tree, int value);
 void bst_remove(BinaryTree* tree, int value);
 bool bst_contains(BinaryTree* tree, int value);
+int bst_get(BinaryTree* tree, int index);
 void bst_print(BinaryTree* tree);
 void bst_delete(BinaryTree* tree);
 

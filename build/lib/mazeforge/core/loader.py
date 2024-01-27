@@ -50,6 +50,11 @@ def configure_library(lib):
 
 
 mazeforge_util = load_library()
+mazeforge_util.init.argtypes = []
+mazeforge_util.init.restype = None
+mazeforge_util.init()
+
+
 mazeforge_util.c_print.argtypes = []
 mazeforge_util.c_print.restype = None
 

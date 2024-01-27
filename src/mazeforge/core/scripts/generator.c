@@ -2,6 +2,13 @@
 #include <stdio.h> // implements printf
 #include <stdlib.h> // implements malloc, calloc and realloc
 #include <stdint.h> // implements int8_t
+#include <time.h>
+
+
+void init() {
+    srand(time(NULL));
+}
+
 
 void c_print() {
     printf("Hello World from C!\n");
@@ -69,8 +76,29 @@ void generate_maze(int8_t *array, int width, int height) {
     bst_insert(adjacent_cells, 4);
     bst_insert(adjacent_cells, 2);
     bst_insert(adjacent_cells, 14);
-    bst_insert(adjacent_cells, 48);
+    bst_insert(adjacent_cells, 11);
+    bst_insert(adjacent_cells, 91);
+    bst_insert(adjacent_cells, 94);
+    bst_insert(adjacent_cells, 20);
+    bst_insert(adjacent_cells, 25);
+    bst_insert(adjacent_cells, 24);
+    bst_insert(adjacent_cells, 26);
+    bst_insert(adjacent_cells, 97);
+    bst_insert(adjacent_cells, 85);
+    
     bst_print(adjacent_cells);
+    printf("--\n%d\n", adjacent_cells->size);
+    bst_remove(adjacent_cells, 37);
+    bst_remove(adjacent_cells, 21);
+    bst_remove(adjacent_cells, 85);
+    bst_remove(adjacent_cells, 14);
+    bst_remove(adjacent_cells, 20);
+    bst_remove(adjacent_cells, 25);
+    printf("--\n%d\n--\n", adjacent_cells->size);
+    for (int i = 0; i < 20; i++) {
+        printf("%d: %d\n", i, bst_get(adjacent_cells, i));
+    }
+    printf("--\n%d\n", bst_get(adjacent_cells, -1));
 
     // Create starting point
     int center[2] = {width / 2, height / 2};
@@ -83,7 +111,9 @@ void generate_maze(int8_t *array, int width, int height) {
             printf("%d ", value);
         }
         printf("\n");
-    } 
+    }
+
+    for (int i = 0; i < 30; i++) printf("%d\n", bst_get_random(adjacent_cells));
 
     bst_delete(adjacent_cells);
 }

@@ -23,22 +23,25 @@ BinaryTree* bst_create() {
 }
 
 
-void recursive_insert(Node* node, int value) {
-    if (node->value == value) {
+bool recursive_insert(Node* node, int value) {
+    if (node->value == value && node->exists == false) {
         node->exists = true;
+        return true;
+    } else if (node->value == value) {
+        return false;
     } else if (node->value > value) {
         if (node->lower == NULL) {
             Node* new_node = create_node(value);
             node->lower = new_node;
         } else {
-            recursive_insert(node->lower, value);
+            return recursive_insert(node->lower, value);
         }
     } else {
         if (node->higher == NULL) {
             Node* new_node = create_node(value);
             node->higher = new_node;
         } else {
-            recursive_insert(node->higher, value);
+            return recursive_insert(node->higher, value);
         }
     }
 }
@@ -49,14 +52,18 @@ void bst_insert(BinaryTree* tree, int value) {
     if (tree->root == NULL) {
         Node* node = create_node(value);
         tree->root = node;
+        tree->size = 1;
     } else {
-        recursive_insert(tree->root, value);
+        if (recursive_insert(tree->root, value) == true) {
+            tree->size++;
+        }
     }
 }
 
 
-void recursive_remove(Node* node, Node* parent, int value) {
+bool recursive_remove(Node* node, Node* parent, int value) {
     if (node->value == value) {
+        bool removed = node->exists;
         if (parent != NULL && node->lower == NULL && node->higher == NULL) {
             if (node->value == parent->lower->value) {
                 parent->lower = NULL;
@@ -67,12 +74,13 @@ void recursive_remove(Node* node, Node* parent, int value) {
         } else {
             node->exists = false;
         }
+        return removed;
     } else if (node->value > value) {
-        if (node->lower == NULL) return;
-        recursive_remove(node->lower, node, value);
+        if (node->lower == NULL) return false;
+        return recursive_remove(node->lower, node, value);
     } else {
-        if (node->higher == NULL) return;
-        recursive_remove(node->higher, node, value);
+        if (node->higher == NULL) return false;
+        return recursive_remove(node->higher, node, value);
     }
 }
 
@@ -80,7 +88,9 @@ void recursive_remove(Node* node, Node* parent, int value) {
 // Remove a value from a binary search tree
 void bst_remove(BinaryTree* tree, int value) {
     if (tree->root == NULL) return;
-    recursive_remove(tree->root, NULL, value); 
+    if (recursive_remove(tree->root, NULL, value) == true) {
+        tree->size--;
+    }
 }
 
 
@@ -102,6 +112,68 @@ bool bst_contains(BinaryTree* tree, int value) {
     if (tree->root == NULL) return false;
     return recursive_contains(tree->root, value); 
 }
+
+
+int recursive_get_lower(Node* node, int* index) {
+    if (node->lower != NULL) {
+        int value = recursive_get_lower(node->lower, index); // Go down left
+        if (*index == -1) {
+            return value;
+        }
+    }
+    if (node->exists == true) {
+        --*index; // Decrease index
+        if (*index == -1) {
+            return node->value;
+        }
+    }
+    if (node->higher != NULL) {
+        return recursive_get_lower(node->higher, index); // Go down right
+    }
+    return 0;
+}
+
+int recursive_get_higher(Node* node, int* index) {
+    if (node->higher != NULL) {
+        int value = recursive_get_higher(node->higher, index); // Go down right
+        if (*index == -1) {
+            return value;
+        }
+    }
+    if (node->exists == true) {
+        --*index; // Decrease index
+        if (*index == -1) {
+            return node->value;
+        }
+    }
+    if (node->lower != NULL) {
+        return recursive_get_higher(node->lower, index); // Go down left
+    }
+    return 0;
+}
+
+
+// Public
+int bst_get(BinaryTree* tree, int index) {
+    if (tree->root == NULL || index >= tree->size || index < -tree->size + 1) return -1;
+    if (index < 0) {
+        index += tree->size;
+    }
+    if (index * 2 < tree->size) {
+        return recursive_get_lower(tree->root, &index);
+    } else {
+        index = tree->size - index - 1;
+        return recursive_get_higher(tree->root, &index);
+    }
+}
+
+
+// Public
+int bst_get_random(BinaryTree* tree) {
+    int index = rand() % tree->size;
+    return bst_get(tree, index);
+}
+
 
 void recursive_print(const Node* node) {
     if (node == NULL) return;
