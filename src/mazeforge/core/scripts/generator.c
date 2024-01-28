@@ -1,50 +1,23 @@
 #include <stdlib.h> // implements malloc, calloc and realloc
 #include <stdint.h> // implements int8_t
-#include <stdio.h> // implements printf
-#include <time.h> // implements time
-#include "bst.h" // implements binary search trees
+#include <stdio.h>  // implements printf
+#include <time.h>   // implements time
+#include "bst.h"    // implements binary search trees
 
 
 void init() {
     srand(time(NULL));
 }
 
-
 void test() {
     printf("Hello World from C!\n");
 }
 
-
-void printBinary(int num) {
-    // Loop through each bit starting from the most significant bit (leftmost)
-    for (int i = 3; i >= 0; i--) {
-        // Check if the i-th bit is set (1) or unset (0)
-        int bit = (num >> i) & 1;
-        
-        // Print the bit
-        printf("%d", bit);
-    }
-    printf("\n");
-}
-
-
-void print_maze(int8_t *array, int width, int height) {
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            int value = array[y + x * width]; // x/y swapped cuz working
-            printf("%d ", value);
-        }
-        printf("\n");
-    } 
-}
-
-
-bool get_bit(int8_t *array, int coord, int index) {
+bool get_bit(int8_t* array, int coord, int index) {
     return (array[coord] >> index) & 1;
 }
 
-
-void set_bit(int8_t *array, int coord, int index, bool value) {
+void set_bit(int8_t* array, int coord, int index, bool value) {
     if (value == true) {
         array[coord] |= (1 << index);
     } else {
@@ -52,6 +25,75 @@ void set_bit(int8_t *array, int coord, int index, bool value) {
     }
 }
 
+void printBinary(int num) {
+    // Loop through each bit starting from the most significant bit (leftmost)
+    for (int i = 3; i >= 0; i--) {
+        // Check if the i-th bit is set (1) or unset (0)
+        int bit = (num >> i) & 1;
+
+        // Print the bit
+        printf("%d", bit);
+    }
+    printf("\n");
+}
+
+void print_raw_maze(int8_t* array, int width, int height) {
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            int value = array[y + x * width]; // x/y swapped cuz working
+            printf("%d ", value);
+        }
+        printf("\n");
+    }
+}
+
+void print_maze(int8_t* array, int width, int height) {
+    printf("┌");
+    for (int i = 0; i < width - 1; i++) {
+        printf("───┬");
+    }
+    printf("───┐\n");
+    for (int y = 0; y < height - 1; y++) {
+        printf("│");
+        for (int x = 0; x < width - 1; x++) {
+            if (get_bit(array, x + y * width, 0) == true) {
+                printf("   │");
+            } else {
+                printf("    ");
+            }
+        }
+        printf("   │\n");
+
+        printf("├");
+        for (int x = 0; x < width - 1; x++) {
+            if (get_bit(array, x + y * width, 1) == true) {
+                printf("───┼");
+            } else {
+                printf("   ┼");
+            }
+        }
+        if (get_bit(array, width - 1 + y * width, 1) == true) {
+            printf("───┤\n");
+        } else {
+            printf("   ┤\n");
+        }
+    }
+    printf("│");
+    for (int x = 0; x < width - 1; x++) {
+        if (get_bit(array, x + (height - 1) * width, 0) == true) {
+            printf("   │");
+        } else {
+            printf("    ");
+        }
+    }
+    printf("   │\n");
+
+    printf("└");
+    for (int i = 0; i < width - 1; i++) {
+        printf("───┴");
+    }
+    printf("───┘\n");
+}
 
 void add_adjacent_cells(int x, int y, BinaryTree* adjacent_cells, int8_t* array, int width, int height) {
     int coord = x + y * width;
@@ -70,8 +112,7 @@ void add_adjacent_cells(int x, int y, BinaryTree* adjacent_cells, int8_t* array,
     }
 }
 
-
-void create_connection(int8_t *array, int x, int y, int width, int height) {
+void create_connection(int8_t* array, int x, int y, int width, int height) {
     int coord = x + y * width;
     int neighbours[4];
 
@@ -141,15 +182,13 @@ void create_connection(int8_t *array, int x, int y, int width, int height) {
     }
 }
 
-
-void generate_maze(int8_t *array, int width, int height) {
+void generate_maze(int8_t* array, int width, int height) {
     // Fill array with -1
     for (int i = 0; i < width * height; i++) {
         array[i] = -1;
     }
 
-    // calloc(number of elements, size per element) -> allocates space + fills with 0
-    // malloc(number of elements * size per element) -> allocates space (maybe prefered)
+    // Create binary search tree
     BinaryTree* adjacent_cells = bst_create();
 
     // Create starting point
@@ -171,10 +210,10 @@ void generate_maze(int8_t *array, int width, int height) {
         // Adjust cell walls
         array[new_cell] = 15;
         create_connection(array, x, y, width, height);
-        printBinary(array[new_cell]);
     }
 
     // Clean up
     bst_delete(adjacent_cells);
     print_maze(array, width, height);
+    return 0;
 }

@@ -4,10 +4,10 @@
 #include <stdbool.h>
 
 typedef struct Node {
+    struct Node* left;
+    struct Node* right;
     int value;
-    bool exists;
-    struct Node* lower; // left child -> lower value
-    struct Node* higher; // right child -> higher value
+    int size;
 } Node;
 
 typedef struct BinaryTree {

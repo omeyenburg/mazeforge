@@ -53,27 +53,8 @@ mazeforge_util = load_library()
 mazeforge_util.init.argtypes = []
 mazeforge_util.init.restype = None
 mazeforge_util.init()
-
-
-mazeforge_util.c_print.argtypes = []
-mazeforge_util.c_print.restype = None
-
-"""
-0:
-
-
-1:
-  │
-
-  
-2:
-
-──
-
-3:
-  │
-──┘
-"""
+mazeforge_util.test.argtypes = []
+mazeforge_util.test.restype = None
 
 # print_maze
 mazeforge_util.print_maze.argtypes = [
