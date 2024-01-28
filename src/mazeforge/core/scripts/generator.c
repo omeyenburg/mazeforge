@@ -136,6 +136,7 @@ void print_maze(int8_t *array, int width, int height) {
                 }
             }
 
+            /*
             switch (value) {
             case 0:
                 printf("  ");
@@ -184,6 +185,56 @@ void print_maze(int8_t *array, int width, int height) {
                 break;
             case 15:
                 printf("┼─");
+                break;
+            }*/
+            switch (value) {
+            case 0:
+                printf("  ");
+                break;
+            case 1:
+                printf("\u2576\u2500");
+                break;
+            case 2:
+                printf("\u2577 ");
+                break;
+            case 3:
+                printf("\u250c\u2500");
+                break;
+            case 4:
+                printf("\u2574 ");
+                break;
+            case 5:
+                printf("\u2500\u2500");
+                break;
+            case 6:
+                printf("\u2510 ");
+                break;
+            case 7:
+                printf("\u252c\u2500");
+                break;
+            case 8:
+                printf("\u2575 ");
+                break;
+            case 9:
+                printf("\u2514\u2500");
+                break;
+            case 10:
+                printf("\u2502 ");
+                break;
+            case 11:
+                printf("\u251c\u2500");
+                break;
+            case 12:
+                printf("\u2518 ");
+                break;
+            case 13:
+                printf("\u2534\u2500");
+                break;
+            case 14:
+                printf("\u2524 ");
+                break;
+            case 15:
+                printf("\u253c\u2500");
                 break;
             }
         }
