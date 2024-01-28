@@ -18,5 +18,5 @@
 #from .core.loader import mazeforge_util
 from .maze import generate
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __all__ = ['generate']
