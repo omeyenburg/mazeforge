@@ -49,34 +49,34 @@ def configure_library(lib):
     lib.c_print.restype = None
 
 
-mazeforge_util = load_library()
-mazeforge_util.init.argtypes = []
-mazeforge_util.init.restype = None
-mazeforge_util.init()
-mazeforge_util.test.argtypes = []
-mazeforge_util.test.restype = None
+generator = load_library()
+generator.init.argtypes = []
+generator.init.restype = None
+generator.init()
+generator.test.argtypes = []
+generator.test.restype = None
 
 # print_maze
-mazeforge_util.print_maze.argtypes = [
+generator.print_maze.argtypes = [
     ctypes.POINTER(ctypes.c_uint8),
     ctypes.c_int,
     ctypes.c_int
 ]
-mazeforge_util.print_maze.restype = None
-print_maze = lambda array, width, height: mazeforge_util.print_maze(
+generator.print_maze.restype = None
+print_maze = lambda array, width, height: generator.print_maze(
     (ctypes.c_uint8 * (width * height))(*array),
     width,
     height
 )
 
 # generate_maze
-mazeforge_util.generate_maze.argtypes = [
+generator.generate_maze.argtypes = [
     ctypes.POINTER(ctypes.c_uint8),
     ctypes.c_int,
     ctypes.c_int
 ]
-mazeforge_util.generate_maze.restype = None
-generate_maze = lambda array, width, height: mazeforge_util.generate_maze(
+generator.generate_maze.restype = None
+generate_maze = lambda array, width, height: generator.generate_maze(
     (ctypes.c_uint8 * (width * height))(*array),
     width,
     height

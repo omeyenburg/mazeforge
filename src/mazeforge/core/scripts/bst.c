@@ -1,11 +1,10 @@
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "bst.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-
-Node* create_node(int value) {
-    Node* node = (Node*)malloc(sizeof(Node));
+Node *create_node(int value) {
+    Node *node = (Node *)malloc(sizeof(Node));
     node->left = node->right = NULL;
     node->value = value;
     node->size = 0;
@@ -14,15 +13,15 @@ Node* create_node(int value) {
 
 // Public
 // Create and returns an empty binary search tree
-BinaryTree* bst_create() {
-    BinaryTree* tree = (BinaryTree*)malloc(sizeof(BinaryTree));
+BinaryTree *bst_create() {
+    BinaryTree *tree = (BinaryTree *)malloc(sizeof(BinaryTree));
     if (tree == NULL)
         exit(EXIT_FAILURE);
     tree->root = NULL;
     return tree;
 }
 
-void recursive_delete(Node* node) {
+void recursive_delete(Node *node) {
     if (node == NULL)
         return;
     recursive_delete(node->left);
@@ -32,13 +31,13 @@ void recursive_delete(Node* node) {
 
 // Public
 // Delete and deallocate binary search tree
-void bst_delete(BinaryTree* tree) {
+void bst_delete(BinaryTree *tree) {
     if (tree->root != NULL)
         recursive_delete(tree->root);
     free(tree);
 }
 
-void recursive_print_values(const Node* node) {
+void recursive_print_values(const Node *node) {
     if (node == NULL)
         return;
     recursive_print_values(node->left);
@@ -48,13 +47,13 @@ void recursive_print_values(const Node* node) {
 
 // Public
 // Print values of a binary search tree in order
-void bst_print_values(BinaryTree* tree) {
+void bst_print_values(BinaryTree *tree) {
     if (tree->root == NULL)
         return;
     recursive_print_values(tree->root);
 }
 
-void recursive_print(Node* node, int indentation) {
+void recursive_print(Node *node, int indentation) {
     if (node == NULL)
         return;
     printf("|");
@@ -69,19 +68,19 @@ void recursive_print(Node* node, int indentation) {
 
 // Public
 // Print the structure of a binary search tree
-void bst_print(BinaryTree* tree) {
+void bst_print(BinaryTree *tree) {
     printf("| Binary Search Tree Structure (%d children)\n", tree->size);
     if (tree->root == NULL)
         return;
     recursive_print(tree->root, 0);
 }
 
-bool recursive_insert(Node* node, int value) {
+bool recursive_insert(Node *node, int value) {
     if (node->value == value) {
         return false;
     } else if (node->value > value) {
         if (node->left == NULL) {
-            Node* new_node = create_node(value);
+            Node *new_node = create_node(value);
             node->left = new_node;
             node->size++;
             return true;
@@ -94,7 +93,7 @@ bool recursive_insert(Node* node, int value) {
         }
     } else {
         if (node->right == NULL) {
-            Node* new_node = create_node(value);
+            Node *new_node = create_node(value);
             node->right = new_node;
             node->size++;
             return true;
@@ -110,9 +109,9 @@ bool recursive_insert(Node* node, int value) {
 
 // Public
 // Add value to tree or returns true if value is already in tree
-void bst_insert(BinaryTree* tree, int value) {
+void bst_insert(BinaryTree *tree, int value) {
     if (tree->root == NULL) {
-        Node* node = create_node(value);
+        Node *node = create_node(value);
         tree->root = node;
         tree->size = 1;
     } else {
@@ -122,8 +121,8 @@ void bst_insert(BinaryTree* tree, int value) {
     }
 }
 
-bool recursive_remove(Node** link, int value) {
-    Node* node = *link;
+bool recursive_remove(Node **link, int value) {
+    Node *node = *link;
 
     if (node == NULL) {
         return false;
@@ -145,17 +144,17 @@ bool recursive_remove(Node** link, int value) {
 
     if (node->left == NULL) {
         // Lower or both are NULL
-        Node* temp = node;
+        Node *temp = node;
         *link = node->right; // Update parent's reference
         free(temp);
     } else if (node->right == NULL) {
         // Higher is NULL
-        Node* temp = node;
+        Node *temp = node;
         *link = node->left; // Update parent's reference
         free(temp);
     } else {
         // None are NULL
-        Node* successor = node->right;
+        Node *successor = node->right;
         while (successor->left != NULL) {
             successor = successor->left;
         }
@@ -174,7 +173,7 @@ bool recursive_remove(Node** link, int value) {
 
 // Public
 // Remove a value from a binary search tree
-void bst_remove(BinaryTree* tree, int value) {
+void bst_remove(BinaryTree *tree, int value) {
     if (tree->root == NULL)
         return;
     if (recursive_remove(&tree->root, value) == true) {
@@ -182,7 +181,7 @@ void bst_remove(BinaryTree* tree, int value) {
     }
 }
 
-bool recursive_contains(Node* node, int value) {
+bool recursive_contains(Node *node, int value) {
     if (node->value == value) {
         return true;
     } else if (node->value > value) {
@@ -198,13 +197,13 @@ bool recursive_contains(Node* node, int value) {
 
 // Public
 // Returns bool(value ∈ tree)
-bool bst_contains(BinaryTree* tree, int value) {
+bool bst_contains(BinaryTree *tree, int value) {
     if (tree->root == NULL)
         return false;
     return recursive_contains(tree->root, value);
 }
 
-int recursive_get_lower(Node* node, int* index) {
+int recursive_get_lower(Node *node, int *index) {
     if (node->left != NULL) {
         int value = recursive_get_lower(node->left, index); // Go down left
         if (*index == -1) {
@@ -223,7 +222,7 @@ int recursive_get_lower(Node* node, int* index) {
     return 0;
 }
 
-int recursive_get_higher(Node* node, int* index) {
+int recursive_get_higher(Node *node, int *index) {
     if (node->right != NULL) {
         int value = recursive_get_higher(node->right, index); // Go down right
         if (*index == -1) {
@@ -244,7 +243,7 @@ int recursive_get_higher(Node* node, int* index) {
 
 // Public
 // Retrieve the value at an index
-int bst_get2(BinaryTree* tree, int index) {
+int bst_get2(BinaryTree *tree, int index) {
     if (tree->root == NULL || index >= tree->size || index < -tree->size + 1)
         return -1;
     if (index < 0) {
@@ -258,28 +257,28 @@ int bst_get2(BinaryTree* tree, int index) {
     }
 }
 
-int recursive_get(Node* node, int index) {
-        if (node == NULL) {
+int recursive_get(Node *node, int index) {
+    if (node == NULL) {
+    }
+    if (node->size == 0) {
+        return node->value;
+    }
+    if (node->left != NULL) {
+        if (node->left->size >= index) {
+            return recursive_get(node->left, index);
+        } else if (node->left->size == index - 1) {
+            return node->value;
+        } else {
+            return recursive_get(node->right, index - node->left->size - 2);
         }
-        if (node->size == 0) {
-                return node->value;
-        }
-        if (node->left != NULL) {
-                if (node->left->size >= index) {
-                        return recursive_get(node->left, index);
-                } else if (node->left->size == index - 1) {
-                        return node->value;
-                } else {
-                        return recursive_get(node->right, index - node->left->size - 2);
-                }
-        }
-        if (index == 0) {
-                return node->value;
-        }
-        return recursive_get(node->right, index - 1);
+    }
+    if (index == 0) {
+        return node->value;
+    }
+    return recursive_get(node->right, index - 1);
 }
 
-int bst_get(BinaryTree* tree, int index) {
+int bst_get(BinaryTree *tree, int index) {
     if (tree->root == NULL || index >= tree->size || index < -tree->size + 1)
         return -1;
     if (index < 0) {
@@ -290,13 +289,13 @@ int bst_get(BinaryTree* tree, int index) {
 
 // Public
 // Return a random value from a binary search tree
-int bst_get_random(BinaryTree* tree) {
+int bst_get_random(BinaryTree *tree) {
     int index = rand() % tree->size;
     return bst_get(tree, index);
 }
 
 int main() {
-    BinaryTree* tree = bst_create();
+    BinaryTree *tree = bst_create();
     bst_insert(tree, 50);
     bst_insert(tree, 60);
     bst_insert(tree, 20);
@@ -315,7 +314,6 @@ int main() {
     }
     bst_delete(tree);
     return 0;
-
 
     bst_remove(tree, 50);
     bst_remove(tree, 25);

@@ -14,10 +14,9 @@
       - https://pypi.org/project/mazeforge/
       - https://github.com/oskarmeyenburg/mazeforge
 """
-from .generator import generate
-from .base import Maze
-from .core.loader import mazeforge_util
-
+#from .generator import generate
+#from .core.loader import mazeforge_util
+from .maze import generate
 
 __version__ = "0.1.1"
-__all__ = ['Maze', 'generate', 'mazeforge_util']
+__all__ = ['generate']
