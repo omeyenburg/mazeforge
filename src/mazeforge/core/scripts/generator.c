@@ -3,9 +3,20 @@
 #include <stdio.h>  // implements printf
 #include <stdlib.h> // implements malloc, calloc and realloc
 #include <time.h>   // implements time
+#include <wchar.h>
+
+#if defined(_WIN32) || defined(WIN32) || defined(_WIN64)
+#include <Windows.h>
+#define OS_Windows 1
+#else
+#define OS_Windows 0
+#endif
 
 void init() {
     srand(time(NULL));
+#if OS_Windows
+    SetConsoleOutputCP(CP_UTF8);
+#endif
 }
 
 void test() {
@@ -90,8 +101,12 @@ void print_maze_deprecated(int8_t *array, int width, int height) {
     printf("───┘\n");
 }
 
-void print_maze(int8_t *array, int width, int height) {
+wchar_t *print_maze2(int8_t *array, int width, int height) {
     bool output_array[width * 2 + 2][height * 2 + 2];
+    // wchar_t *buffer = (wchar_t *)malloc(((width * 2 + 2) * (height * 2 + 2) + height * 2 + 1) * sizeof(wchar_t));
+    wchar_t *buffer = (wchar_t *)malloc(120 * sizeof(wchar_t));
+    int index = 0;
+
     for (int x = 0; x <= width; x++) {
         for (int y = 0; y <= height; y++) {
             if (x == width && y == height) {
@@ -117,6 +132,8 @@ void print_maze(int8_t *array, int width, int height) {
             }
         }
     }
+
+    printf("%d\n", true + true + false);
 
     for (int y = 0; y < height * 2 + 1; y++) {
         for (int x = 0; x <= width * 2 + 1; x++) {
@@ -187,58 +204,250 @@ void print_maze(int8_t *array, int width, int height) {
                 printf("┼─");
                 break;
             }*/
-            switch (value) {
+
+            /*switch (value) {
             case 0:
                 printf("  ");
                 break;
             case 1:
-                printf("\u2576\u2500");
+                wprintf(L"\u2576\u2500");
                 break;
             case 2:
-                printf("\u2577 ");
+                wprintf(L"\u2577 ");
                 break;
             case 3:
-                printf("\u250c\u2500");
+                wprintf(L"\u250c\u2500");
                 break;
             case 4:
-                printf("\u2574 ");
+                wprintf(L"\u2574 ");
                 break;
             case 5:
-                printf("\u2500\u2500");
+                wprintf(L"\u2500\u2500");
                 break;
             case 6:
-                printf("\u2510 ");
+                wprintf(L"\u2510 ");
                 break;
             case 7:
-                printf("\u252c\u2500");
+                wprintf(L"\u252c\u2500");
                 break;
             case 8:
-                printf("\u2575 ");
+                wprintf(L"\u2575 ");
                 break;
             case 9:
-                printf("\u2514\u2500");
+                wprintf(L"\u2514\u2500");
                 break;
             case 10:
-                printf("\u2502 ");
+                wprintf(L"\u2502 ");
                 break;
             case 11:
-                printf("\u251c\u2500");
+                wprintf(L"\u251c\u2500");
                 break;
             case 12:
-                printf("\u2518 ");
+                wprintf(L"\u2518 ");
                 break;
             case 13:
-                printf("\u2534\u2500");
+                wprintf(L"\u2534\u2500");
                 break;
             case 14:
-                printf("\u2524 ");
+                wprintf(L"\u2524 ");
                 break;
             case 15:
-                printf("\u253c\u2500");
+                wprintf(L"\u253c\u2500");
+                break;
+            }*/
+
+            /*switch (value) {
+            case 0:
+                buffer[index++] = ' ';
+                buffer[index++] = ' ';
+                break;
+            case 1:
+                buffer[index++] = '\u2576';
+                buffer[index++] = '\u2500';
+                break;
+            case 2:
+                buffer[index++] = '\u2577';
+                buffer[index++] = ' ';
+                break;
+            case 3:
+                buffer[index++] = '\u250c';
+                buffer[index++] = '\u2500';
+                break;
+            case 4:
+                buffer[index++] = '\u2574';
+                buffer[index++] = ' ';
+                break;
+            case 5:
+                buffer[index++] = '\u2500';
+                buffer[index++] = '\u2500';
+                break;
+            case 6:
+                buffer[index++] = '\u2510';
+                buffer[index++] = ' ';
+                break;
+            case 7:
+                buffer[index++] = '\u252c';
+                buffer[index++] = '\u2500';
+                break;
+            case 8:
+                buffer[index++] = '\u2575';
+                buffer[index++] = ' ';
+                break;
+            case 9:
+                buffer[index++] = '\u2514';
+                buffer[index++] = '\u2500';
+                break;
+            case 10:
+                buffer[index++] = '\u2502';
+                buffer[index++] = ' ';
+                break;
+            case 11:
+                buffer[index++] = '\u251c';
+                buffer[index++] = '\u2500';
+                break;
+            case 12:
+                buffer[index++] = '\u2518';
+                buffer[index++] = ' ';
+                break;
+            case 13:
+                buffer[index++] = '\u2534';
+                buffer[index++] = '\u2500';
+                break;
+            case 14:
+                buffer[index++] = '\u2524';
+                buffer[index++] = ' ';
+                break;
+            case 15:
+                buffer[index++] = '\u253c';
+                buffer[index++] = '\u2500';
+                break;
+            }*/
+
+            switch (value) {
+            case 0:
+                buffer[index++] = ' ';
+                buffer[index++] = ' ';
+                break;
+            case 1:
+                buffer[index++] = L'╶';
+                buffer[index++] = L'─';
+                break;
+            case 2:
+                buffer[index++] = L'╷';
+                buffer[index++] = L' ';
+                break;
+            case 3:
+                buffer[index++] = L'┌';
+                buffer[index++] = L'─';
+                break;
+            case 4:
+                buffer[index++] = L'╴';
+                buffer[index++] = L' ';
+                break;
+            case 5:
+                buffer[index++] = L'─';
+                buffer[index++] = L'─';
+                break;
+            case 6:
+                buffer[index++] = L'┐';
+                buffer[index++] = L' ';
+                break;
+            case 7:
+                buffer[index++] = L'┬';
+                buffer[index++] = L'─';
+                break;
+            case 8:
+                buffer[index++] = L'╵';
+                buffer[index++] = L' ';
+                break;
+            case 9:
+                buffer[index++] = L'└';
+                buffer[index++] = L'─';
+                break;
+            case 10:
+                buffer[index++] = L'│';
+                buffer[index++] = L' ';
+                break;
+            case 11:
+                buffer[index++] = L'├';
+                buffer[index++] = L'─';
+                break;
+            case 12:
+                buffer[index++] = L'┘';
+                buffer[index++] = L' ';
+                break;
+            case 13:
+                buffer[index++] = L'┴';
+                buffer[index++] = L'─';
+                break;
+            case 14:
+                buffer[index++] = L'┤';
+                buffer[index++] = L' ';
+                break;
+            case 15:
+                buffer[index++] = L'┼';
+                buffer[index++] = L'─';
                 break;
             }
         }
-        printf("\n");
+        buffer[index++] = '\n';
+    }
+    printf("%d\n", index);
+    buffer[index] = '\0'; // Null-terminate the string
+    return buffer;
+}
+
+void print_maze(int8_t *array, int8_t *buffer, int width, int height) {
+    bool output_array[width * 2 + 2][height * 2 + 2];
+    int index = 0;
+
+    for (int x = 0; x <= width; x++) {
+        for (int y = 0; y <= height; y++) {
+            if (x == width && y == height) {
+                output_array[x * 2][y * 2 + 1] = false;
+                output_array[x * 2 + 1][y * 2] = false;
+                output_array[x * 2 + 1][y * 2 + 1] = false;
+                output_array[x * 2][y * 2] = true;
+            } else if (x == width) {
+                output_array[x * 2][y * 2 + 1] = true;
+                output_array[x * 2 + 1][y * 2] = false;
+                output_array[x * 2 + 1][y * 2 + 1] = false;
+                output_array[x * 2][y * 2] = true;
+            } else if (y == height) {
+                output_array[x * 2][y * 2 + 1] = false;
+                output_array[x * 2 + 1][y * 2] = true;
+                output_array[x * 2 + 1][y * 2 + 1] = false;
+                output_array[x * 2][y * 2] = true;
+            } else {
+                output_array[x * 2][y * 2 + 1] = get_bit(array, x + y * width, 2);
+                output_array[x * 2 + 1][y * 2] = get_bit(array, x + y * width, 3);
+                output_array[x * 2 + 1][y * 2 + 1] = false;
+                output_array[x * 2][y * 2] = true;
+            }
+        }
+    }
+
+    for (int y = 0; y < height * 2 + 1; y++) {
+        for (int x = 0; x <= width * 2 + 1; x++) {
+            int value = 0;
+            if (output_array[x][y] == true) {
+                // value = output_array[x][y] + 2 * output_array[x][y + 1] + 4 * (x > 0 && output_array[x - 1][y]) + 8 * (y > 0 && output_array[x][y - 1]);
+                if (output_array[x + 1][y] == true) {
+                    value += 1;
+                }
+                if (output_array[x][y + 1] == true) {
+                    value += 2;
+                }
+                if (x > 0 && output_array[x - 1][y] == true) {
+                    value += 4;
+                }
+                if (y > 0 && output_array[x][y - 1] == true) {
+                    value += 8;
+                }
+            }
+            buffer[index++] = value;
+        }
+        buffer[index++] = 16;
     }
 }
 
@@ -330,6 +539,10 @@ void create_connection(int8_t *array, int x, int y, int width, int height) {
 }
 
 void generate_maze(int8_t *array, int width, int height) {
+    if (width + height <= 2) {
+        return;
+    }
+
     // Fill array with -1
     for (int i = 0; i < width * height; i++) {
         array[i] = -1;
@@ -361,6 +574,5 @@ void generate_maze(int8_t *array, int width, int height) {
 
     // Clean up
     bst_delete(adjacent_cells);
-    print_maze(array, width, height);
-    return 0;
+    // print_maze(array, width, height);
 }

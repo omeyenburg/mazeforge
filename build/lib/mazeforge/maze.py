@@ -3,13 +3,13 @@ from .core.loader import generator
 import ctypes
 
 class Maze:
-    def __init__(self, width=2, height=2):
+    def __init__(self, width, height):
         self.width = width
         self.height = height
         self.array = generate(width, height)
 
     def __repr__(self):
-        return f"Maze(width={self.width}, height={self.height})"
+        return f"Maze(width: {self.width}, {self.height})"
 
     def __str__(self):
         string = maze_string(self.array, self.width, self.height)

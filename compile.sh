@@ -10,7 +10,7 @@ DIR_BASE="src/mazeforge/core"
 DIR_OUT="platform"
 DIR_SOURCE="scripts"
 LIB_NAME="maze"
-COMPILER_WARNINGS="-w" # warnings: "-Wall" | no warnings: "-w"
+COMPILER_WARNINGS="-Wall" # warnings: "-Wall" | no warnings: "-w"
 
 COMPILERS=(
     "/usr/local/bin/x86_64-unknown-linux-gnu-gcc"
@@ -19,8 +19,8 @@ COMPILERS=(
     "/usr/local/bin/aarch64-unknown-linux-gnu-gcc"
     "/usr/local/bin/x86_64-apple-darwin19-gcc-12"
     "/usr/local/bin/arm-none-eabi-gcc"
-    "/usr/local/bin/x86_64-w64-mingw32-gcc"
-    "/usr/local/bin/i686-w64-mingw32-gcc"
+    "/usr/local/bin/x86_64-w64-mingw32-gcc -municode -finput-charset=utf-8"
+    "/usr/local/bin/i686-w64-mingw32-gcc -municode -finput-charset=utf-8"
 )
 
 OUTPUT_DIRECTORIES=(
