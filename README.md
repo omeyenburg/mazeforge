@@ -1,13 +1,6 @@
 # MazeForge
 
-Generation of mazes in Python
-
-## Installation
-
-You can install **MazeForge** from [PyPI](https://pypi.org/project/mazeforge/) by running the following in your terminal.<br>
-`python -m pip install mazeforge`
-<br>
-
+Generation of mazes in Python.
 MazeForge is supported on Python 3.7 and above.
 
 ## Documentation
